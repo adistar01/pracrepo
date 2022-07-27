@@ -61,34 +61,13 @@ app.post('/generate-heatmap', async(req, res) => {
         } else {
             //Use the name of the input field (i.e. "txtFile") to retrieve the uploaded files
             let txtFile = req.files.txtFile;
-            //let img = req.files.floor;
-            console.log(1);
             var imageAsBase64 = req.body.base64image;
-            console.log(2);
             var fileName = 'image'+Date.now()+'.png';
-            console.log(3);
-
-            //var matches = req.body.base64image.match(/^data:([A-Za-z-+/]+);base64,(.+)$/);
-            //response = {};
-            // 
-            //if (matches.length !== 3) {
-            //return new Error('Invalid input string');
-            //}
-            //console.log(Date.now());
-            //response.type = matches[1];
-            //response.data = new Buffer(matches[2], 'base64');
-            //let decodedImg = response;
-            //let imageBuffer = decodedImg.data;
-            //let type = decodedImg.type;
-            //let extension = mime.extension(type);
-            //let fileName = 'image'+Date.now()+'.'+extension;
             try {
             fs.writeFileSync("./images/" + fileName, imageAsBase64, 'utf8');
             } catch (e) {
             next(e);
             }
-            console.log(4);
-        
             let val=true;
             let path="";
             temp = req.files.txtFile.data.toString('utf-8');
@@ -131,17 +110,7 @@ app.post('/generate-heatmap', async(req, res) => {
                 console.log();
                 console.log('ChildPythen process exited with code : '+code);
             });
-            
-            
-            /*var fileName = './signal_strength.png';
-            /*res.sendFile(fileName, options, function(err){
-            if (err) {
-                next(err);
-            } else {
-                console.log('Sent:', fileName);
-            }
-        });
-        */
+        
             await delay(7000);
             fs.readFile(__dirname+"/signal_strength.png", function (err, data) {
                 if (err) throw err;
@@ -153,8 +122,6 @@ app.post('/generate-heatmap', async(req, res) => {
 
             var imageAsBase64 = fs.readFileSync('./signal_strength.png', 'base64');
             res.end(imageAsBase64);
-            
-            //res.sendFile(__dirname+"/signal_strength.png")
         }
     } catch (err) {
         res.status(500).send(err);
