@@ -45,8 +45,7 @@ app.post('/generate-heatmap', async(req, res) => {
     try {
         if(!req.files.avatar) {
             
-            res.send({
-                status: false,
+            res.status(201).send({
                 message: 'No file uploaded'
             });
         } else {
@@ -121,6 +120,7 @@ app.post('/generate-heatmap', async(req, res) => {
                 console.log('stderr chPythen:: '+data);
             });
             childPythen.stdout.on('close', (code)=>{
+                console.log();
                 console.log('ChildPythen process exited with code : '+code);
             });
             
@@ -163,7 +163,7 @@ app.use(express.static('images'));
 
 
 //start app 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3002;
 
 app.listen(port, () => 
   console.log(`App is listening on port ${port}.`)
